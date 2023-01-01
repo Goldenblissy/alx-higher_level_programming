@@ -4,7 +4,11 @@ void print_python_list(PyObject *p);
 void print_python_bytes(PyObject *p);
 void print_python_float(PyObject *p);
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> b55092ece4330ce78c9ad7033407fc5ad8465e5d
  * print_python_list - Prints basic info about Python lists.
  * @p: A PyObject list object.
  */
@@ -41,7 +45,11 @@ void print_python_list(PyObject *p)
 	}
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> b55092ece4330ce78c9ad7033407fc5ad8465e5d
  * print_python_bytes - Prints basic info about Python byte objects.
  * @p: A PyObject byte object.
  */
@@ -78,7 +86,11 @@ void print_python_bytes(PyObject *p)
 	}
 }
 
+<<<<<<< HEAD
 /*
+=======
+/**
+>>>>>>> b55092ece4330ce78c9ad7033407fc5ad8465e5d
  * print_python_float - Prints basic info about Python float objects.
  * @p: A PyObject float object.
  */
