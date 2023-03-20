@@ -1,24 +1,20 @@
 #!/usr/bin/python3
-# script to list all states from database hbtn_0e_0_usa
-from sys import argv as av
-""" script to connect to db and access info """
+"""
+Lists all states from the database hbtn_0e_0_usa
+"""
+import sys
 import MySQLdb
 
+if __name__ == '__main__':
+    db = MySQLdb.connect(
+        user=sys.argv[1],
+        passwd=sys.argv[2],
+        db=sys.argv[3],
+        port=3306,
+        host='localhost')
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM states ORDER BY states.id ASC;')
 
-if __name__ == "__main__":
-    ac = len(av)
-    if ac < 4:
-        exit()
-    conn = MySQLdb.connect(host="localhost",
-                           port=3306,
-                           user=av[1],
-                           passwd=av[2],
-                           db=av[3],
-                           charset="utf8")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM states ORDER BY id ASC")
-    query_rows = cur.fetchall()
-    for row in query_rows:
-        print(row)
-    cur.close()
-    conn.close()
+    states = cursor.fetchall()
+    for state in states:
+        print(state)

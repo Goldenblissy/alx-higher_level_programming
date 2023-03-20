@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-lists all states with a name starting with N
+script that lists all cities from the database
 '''
 
 import MySQLdb
@@ -15,14 +15,11 @@ if __name__ == '__main__':
         host='localhost')
 
     cursor = db.cursor()
-    cursor.execute("SELECT * \
-                    FROM states \
-                    WHERE CONVERT(`name` USING Latin1) \
-                    COLLATE Latin1_General_CS \
-                    LIKE 'N%';")
+    cursor.execute(
+        'SELECT cities.id, cities.name, states.name FROM cities JOIN states ON\
+        cities.state_id = states.id;')
 
     states = cursor.fetchall()
+
     for state in states:
         print(state)
-    cursor.close()
-    db.close()
