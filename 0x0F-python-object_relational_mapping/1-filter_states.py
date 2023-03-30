@@ -1,28 +1,24 @@
 #!/usr/bin/python3
-'''
-lists all states with a name starting with N
-'''
-
-import MySQLdb
+"""Select States Module"""
 import sys
-
+import MySQLdb
 if __name__ == '__main__':
-    db = MySQLdb.connect(
-        user=sys.argv[1],
-        passwd=sys.argv[2],
-        db=sys.argv[3],
-        port=3306,
-        host='localhost')
+    db_username = sys.argv[1]
+    db_password = sys.argv[2]
+    db_name = sys.argv[3]
+    db_host = "localhost"
+
+    db = MySQLdb.connect(user=db_username, password=db_password,
+                         host=db_host, database=db_name)
 
     cursor = db.cursor()
-    cursor.execute("SELECT * \
-                    FROM states \
-                    WHERE CONVERT(`name` USING Latin1) \
-                    COLLATE Latin1_General_CS \
-                    LIKE 'N%';")
 
-    states = cursor.fetchall()
-    for state in states:
-        print(state)
+    cursor.execute(
+        "SELECT * FROM states WHERE name LIKE BINARY 'N%' ORDER BY id ASC")
+
+    rows = cursor.fetchall()
+
+    for i in rows:
+        print(i)
     cursor.close()
     db.close()

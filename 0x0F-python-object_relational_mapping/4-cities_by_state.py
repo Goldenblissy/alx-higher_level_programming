@@ -1,25 +1,21 @@
 #!/usr/bin/python3
-'''
-script that lists all cities from the database
-'''
-
-import MySQLdb
+"""Select States Module"""
 import sys
-
+import MySQLdb
 if __name__ == '__main__':
-    db = MySQLdb.connect(
-        user=sys.argv[1],
-        passwd=sys.argv[2],
-        db=sys.argv[3],
-        port=3306,
-        host='localhost')
+    db_username = sys.argv[1]
+    db_password = sys.argv[2]
+    db_name = sys.argv[3]
+    db_host = "localhost"
 
+    db = MySQLdb.connect(user=db_username, password=db_password,
+                         host=db_host, database=db_name)
     cursor = db.cursor()
-    cursor.execute(
-        'SELECT cities.id, cities.name, states.name FROM cities JOIN states ON\
-        cities.state_id = states.id;')
-
-    states = cursor.fetchall()
-
-    for state in states:
-        print(state)
+    sqlquery = "SELECT cities.id, cities.name, states.name FROM\
+         cities INNER JOIN states ON cities.state_id = states.id"
+    cursor.execute(sqlquery)
+    rows = cursor.fetchall()
+    for i in rows:
+        print(i)
+    cursor.close()
+    db.close()

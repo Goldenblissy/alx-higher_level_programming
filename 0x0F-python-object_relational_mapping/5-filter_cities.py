@@ -1,35 +1,23 @@
 #!/usr/bin/python3
-'''
-script that takes in the name of a state as an argument and lists all cities
-'''
-
-import MySQLdb
+"""Select States Module"""
 import sys
-
+import MySQLdb
 if __name__ == '__main__':
-    db = MySQLdb.connect(
-        user=sys.argv[1],
-        passwd=sys.argv[2],
-        db=sys.argv[3],
-        port=3306,
-        host='localhost')
+    db_username = sys.argv[1]
+    db_password = sys.argv[2]
+    db_name = sys.argv[3]
+    db_host = "localhost"
+    state_name = sys.argv[4]
 
+    db = MySQLdb.connect(user=db_username, password=db_password,
+                         host=db_host, database=db_name)
     cursor = db.cursor()
-    cursor.execute(
-        'SELECT cities.name FROM cities\
-        INNER JOIN states ON cities.state_id = states.id\
-        WHERE states.name = %s \
-        ORDER BY cities.id ASC', (sys.argv[4], ))
-
-    cities = cursor.fetchall()
-
-    idx = 0
-    for city in cities:
-        if idx != 0:
-            print(", ", end="")
-        print("%s" % city, end="")
-        idx += 1
-    print("")
-
+    sqlquery = "SELECT cities.name FROM cities JOIN states ON\
+         cities.state_id = states.id WHERE states.name\
+             LIKE BINARY %s ORDER BY cities.id ASC"
+    cursor.execute(sqlquery, (state_name,))
+    rows = cursor.fetchall()
+    if rows is not None:
+        print(", ".join([row[0] for row in rows]))
     cursor.close()
     db.close()
