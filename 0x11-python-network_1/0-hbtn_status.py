@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-"""Fetches https://alx-intranet.hbtn.io/status"""
+"""module to implement GET with urllib"""
 import urllib.request
 
-
-if __name__ == "__main__":
-    request = urllib.request.Request("https://alx-intranet.hbtn.io/status")
-    with urllib.request.urlopen(request) as response:
-        body = response.read()
+url = 'https://alx-intranet.hbtn.io/status'
+request = urllib.request.Request
+if __name__ == '__main__':
+    """run the code"""
+    with urllib.request.urlopen(request(url)) as response:
+        content = response.read()
         print("Body response:")
-        print("\t- type: {}".format(type(body)))
-        print("\t- content: {}".format(body))
-        print("\t- utf8 content: {}".format(body.decode("utf-8")))
+        print(f"\t- type: {type(content)}")
+        print(f"\t- content: {content}")
+        print(f"\t- utf8 content: {content.decode('utf-8')}")

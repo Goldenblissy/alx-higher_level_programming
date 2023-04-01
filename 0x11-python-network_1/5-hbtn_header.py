@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-"""Takes URL, sends a request and displays the value of X-Request-Id"""
+"""display header with requests"""
 import requests
-from sys import argv
-
-
+import sys
 if __name__ == '__main__':
-    r = requests.get(argv[1])
-    print(r.headers.get('x-Request-Id'))
+    """display a header"""
+    url = sys.argv[1]
+    response = requests.get(url)
+    print(response.headers.get('X-Request-Id'))

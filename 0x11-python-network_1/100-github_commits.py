@@ -1,15 +1,23 @@
 #!/usr/bin/python3
-""" Github code challenge"""
+"""Get the 10 latest commits"""
 import requests
-from sys import argv
+import sys
+
 
 if __name__ == "__main__":
-    url = "https://api.github.com/repos/{}/{}/commits"\
-          .format(argv[2], argv[1])
-    r = requests.get(url)
-    n = 0
-    for i in r.json():
-        if n < 10:
-            print("{}: {}".format(i.get("sha"),
-                  i.get("commit").get("author").get("name")))
-        n += 1
+    """Get the latest 10 commits"""
+    repo = sys.argv[1]
+    owner = sys.argv[2]
+    url = f"https://api.github.com/repos/{owner}/{repo}/commits?\
+            author={owner}&sort=author-date&direction=desc&per_page=10"
+    response = requests.get(url)
+    json = response.json()
+    num = 0
+    for i in json:
+        sha = i.get('sha')
+        author = i.get("commit").get("author").get("name")
+        if (sha is not None):
+            print(f"{sha}: {author}")
+        num += 1
+        if (num == 10):
+            break

@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-"""takes in a URL, sends a request to the URL and displays the body
-of the response"""
+"""Get response based on error code"""
 import requests
-from sys import argv
-
+import sys
 
 if __name__ == '__main__':
-    r = requests.get(argv[1])
-    if r.status_code >= 400:
-        print('Error code:', r.status_code)
+    """Get error based on status code"""
+    url = sys.argv[1]
+    response = requests.get(url)
+    status = eval(f"response.status_code")
+    if status >= 400:
+        print("Error code:", status)
     else:
-        print(r.text)
+        print(response.text)

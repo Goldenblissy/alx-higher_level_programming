@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-"""takes url & email, sends a POST request and displays the response"""
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError
-from sys import argv
-
+"""handle errors in http requests"""
 if __name__ == '__main__':
-    req = Request(argv[1])
+    """handle the errors"""
+    import urllib.request
+    from urllib.error import HTTPError
+    import sys
+    url = sys.argv[1]
+    request = urllib.request.Request
     try:
-        with urlopen(req) as response:
-            r = response.read()
-            print(r.decode('utf-8'))
+        with urllib.request.urlopen(request(url)) as response:
+            print(response.read().decode('utf-8'))
     except HTTPError as e:
-        print('Error code:', e.code)
+        print("Error code:", e.code)

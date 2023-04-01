@@ -1,18 +1,23 @@
 #!/usr/bin/python3
-"""takes letter and sends a POST req to http://0.0.0.0:5000/search_user
-with the letter as a parameter."""
+"Make a post request"
+import sys
 import requests
-from sys import argv
-
-
 if __name__ == '__main__':
-    letter = {'q': argv[1][0] if len(argv) > 1 else ''}
-    r = requests.post('http://0.0.0.0:5000/search_user', data=letter)
+    """Implementing post request"""
+    q = ""
+    url = "http://0.0.0.0:5000/search_user"
+
+    if len(sys.argv) > 1 and sys.argv[1].isalpha() is not False:
+        q = sys.argv[1]
+    data = {"q": q}
+    response = requests.post(url, data)
     try:
-        response = r.json()
-        if response:
-            print('[{}] {}'.format(response.get('id'), response.get('name')))
-        else:
-            print('No result')
+        if (response.json() and len(response.json()) > 0):
+            result = response.json()
+            id = result.get('id')
+            name = result.get('name')
+            print(f"[{id}] {name}")
+        elif len(response.json()) == 0:
+            print("No result")
     except ValueError:
-        print('Not a valid JSON')
+        print("Not a valid JSON")
